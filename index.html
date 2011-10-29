@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+      <link rel="stylesheet" href="styles" type="text/css" />
+    <title>bship game</title>
+    <script type="text/javascript" src="scripts"></script>
+  </head>
+  <body>
+    <div id="gamespaces" align="center">
+      <table onclick="changeClass(event)" id="humangs">
+	<tr>
+	  <td></td><td></td><td></td><td></td><td></td>
+	  <td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+	  <td></td><td></td><td></td><td></td><td></td>
+	  <td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+	  <td></td><td></td><td></td><td></td><td></td>
+	  <td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+	  <td></td><td></td><td></td><td></td><td></td>
+	  <td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+	  <td></td><td></td><td></td><td></td><td></td>
+	  <td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+	  <td></td><td></td><td></td><td></td><td></td>
+	  <td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+	  <td></td><td></td><td></td><td></td><td></td>
+	  <td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+	  <td></td><td></td><td></td><td></td><td></td>
+	  <td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+	  <td></td><td></td><td></td><td></td><td></td>
+	  <td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+	  <td></td><td></td><td></td><td></td><td></td>
+	  <td></td><td></td><td></td><td></td><td></td>
+	</tr>
+      </table>
+      <table onclick="shoot(event)" id="compgs" style="display: none;">
+	<tr>
+	  <td></td><td></td><td></td><td></td><td></td>
+	  <td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+	  <td></td><td></td><td></td><td></td><td></td>
+	  <td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+	  <td></td><td></td><td></td><td></td><td></td>
+	  <td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+	  <td></td><td></td><td></td><td></td><td></td>
+	  <td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+	  <td></td><td></td><td></td><td></td><td></td>
+	  <td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+	  <td></td><td></td><td></td><td></td><td></td>
+	  <td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+	  <td></td><td></td><td></td><td></td><td></td>
+	  <td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+	  <td></td><td></td><td></td><td></td><td></td>
+	  <td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+	  <td></td><td></td><td></td><td></td><td></td>
+	  <td></td><td></td><td></td><td></td><td></td>
+	</tr>
+	<tr>
+	  <td></td><td></td><td></td><td></td><td></td>
+	  <td></td><td></td><td></td><td></td><td></td>
+	</tr>
+      </table>
+    </div>
+    <div id="form">
+      <input type="text" id="name" />
+      <button type="button" onClick="createGame()">create game</button>
+      <button type="button" onClick="randomGS()">help me, random-bruteforcer</button>
+    </div>
+    <p id="message"></p>
+  </body>
+</html>

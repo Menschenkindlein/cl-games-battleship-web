@@ -1,0 +1,25 @@
+#gamespaces { width: 100%; height: 360px; float: none; }
+
+#message { padding: 10px; float: none; }
+
+#form { padding: 10px; float: none; }
+
+table { border-collapse: collapse; float: left; margin: 15px; }
+
+td { width: 30px; height: 30px; background-color: grey; float: left; }
+
+td:hover { background-color: #909090; }
+
+td.ship { background-color: black; }
+
+td.ship:hover { background-color: #303030; }
+
+td.shooted-ship { background-color: red; }
+
+td.shooted-ship:hover { background-color: #ff6060; }
+
+td.sea { background-color: blue; }
+
+td.sea:hover { background-color: #6060ff; }
+
+td.pending { background-color: red; }
