@@ -89,6 +89,7 @@ function createGame ()
 	    var response=xmlhttp.responseText.split("|");
 	    updateGS(response[0],response[1],response[2]);
 	    document.getElementById("form").style.display="none";
+	    document.getElementById("help").style.display="none";
 	    document.getElementById("compgs").style.display="inline";
 	    document.getElementById("message").style.display="inline";
 	}

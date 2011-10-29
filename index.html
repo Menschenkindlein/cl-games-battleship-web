@@ -7,97 +7,46 @@
     <script type="text/javascript" src="scripts"></script>
   </head>
   <body>
-    <div id="gamespaces" align="center">
+    <div id="container">
+      <h1 align="center">Common Lisp Battleship</h1>
       <table onclick="changeClass(event)" id="humangs">
-	<tr>
-	  <td></td><td></td><td></td><td></td><td></td>
-	  <td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-	  <td></td><td></td><td></td><td></td><td></td>
-	  <td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-	  <td></td><td></td><td></td><td></td><td></td>
-	  <td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-	  <td></td><td></td><td></td><td></td><td></td>
-	  <td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-	  <td></td><td></td><td></td><td></td><td></td>
-	  <td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-	  <td></td><td></td><td></td><td></td><td></td>
-	  <td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-	  <td></td><td></td><td></td><td></td><td></td>
-	  <td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-	  <td></td><td></td><td></td><td></td><td></td>
-	  <td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-	  <td></td><td></td><td></td><td></td><td></td>
-	  <td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-	  <td></td><td></td><td></td><td></td><td></td>
-	  <td></td><td></td><td></td><td></td><td></td>
-	</tr>
+	<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+	<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+	<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+	<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+	<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+	<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+	<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+	<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+	<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+	<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
       </table>
-      <table onclick="shoot(event)" id="compgs" style="display: none;">
-	<tr>
-	  <td></td><td></td><td></td><td></td><td></td>
-	  <td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-	  <td></td><td></td><td></td><td></td><td></td>
-	  <td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-	  <td></td><td></td><td></td><td></td><td></td>
-	  <td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-	  <td></td><td></td><td></td><td></td><td></td>
-	  <td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-	  <td></td><td></td><td></td><td></td><td></td>
-	  <td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-	  <td></td><td></td><td></td><td></td><td></td>
-	  <td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-	  <td></td><td></td><td></td><td></td><td></td>
-	  <td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-	  <td></td><td></td><td></td><td></td><td></td>
-	  <td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-	  <td></td><td></td><td></td><td></td><td></td>
-	  <td></td><td></td><td></td><td></td><td></td>
-	</tr>
-	<tr>
-	  <td></td><td></td><td></td><td></td><td></td>
-	  <td></td><td></td><td></td><td></td><td></td>
-	</tr>
-      </table>
+      <div id="right">
+	<div id="help">
+	  <p>You may draw your ships with your own hand or let random-bruteforce-placer to do this work for you.</p>
+	  <p>You may insert your name in the text field.  But really it doesn't affect anything.</p>
+	</div>
+	<table onclick="shoot(event)" id="compgs">
+	  <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+	  <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+	  <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+	  <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+	  <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+	  <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+	  <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+	  <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+	  <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+	  <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+	</table>
+      </div>
+      <div id="bottom">
+	<div id="form">
+	  <input type="text" id="name" />
+	  <button type="button" onClick="createGame()">create game</button>
+	  <button type="button" onClick="randomGS()">help me, random-bruteforcer</button>
+	</div>
+	<p id="message"></p>
+      </div>
     </div>
-    <div id="form">
-      <input type="text" id="name" />
-      <button type="button" onClick="createGame()">create game</button>
-      <button type="button" onClick="randomGS()">help me, random-bruteforcer</button>
-    </div>
-    <p id="message"></p>
   </body>
 </html>
