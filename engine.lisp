@@ -5,7 +5,8 @@
    (comp-game-space :accessor comp-game-space)
    (human-name :initarg :human-name :reader human-name)
    (comp-player-name :initarg :comp-player-name :reader comp-player-name)
-   (comp-killer :accessor comp-killer)))
+   (comp-killer :accessor comp-killer)
+   (result :accessor result)))
 
 (defmethod initialize-instance :after ((game game)
 				       &key comp-placer comp-killer config
@@ -66,18 +67,17 @@
 (defvar *game-spaces* (make-hash-table))
 
 (defmethod turn ((game game) &optional shooting-place)
-  (let ((result (if shooting-place
-		    (shoot (comp-game-space game) shooting-place)
-		    (shoot (human-game-space game) (ask (comp-killer game))))))
+  (setf (result game) (if shooting-place
+			  (shoot (comp-game-space game) shooting-place)
+			  (shoot (human-game-space game)
+				 (ask (comp-killer game) (result game)))))
     (if shooting-place
 	(if (cleared (comp-game-space game))
 	    (ask-human game "are winner")
-	    (ask-human game result))
+	    (ask-human game (result game)))
 	(if (cleared (human-game-space game))
 	    (ask-human game "is winner")
-	    (progn
-	      (change-killing-sequence (comp-killer game) result)
-	      (ask-human game result))))))
+	    (ask-human game (result game)))))
 
 (defmacro incn (n list &optional (increment 1))
   (let ((incfed-list (gensym)))

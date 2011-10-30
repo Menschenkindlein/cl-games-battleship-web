@@ -14,7 +14,7 @@ body { background-color: grey; }
 
 #bottom { text-align: center; padding: 10px;}
 
-/* #message { padding: 10px; } */
+#message { display: none; }
 
 /* #form { margin: 0 auto; padding: 10px; } */
 

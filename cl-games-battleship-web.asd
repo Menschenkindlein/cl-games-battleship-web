@@ -3,5 +3,4 @@
     :components
     ((:file "package")
      (:file "engine" :depends-on ("package"))
-     (:file "killers" :depends-on ("package"))
-     (:file "server" :depends-on ("engine" "killers"))))
+     (:file "server" :depends-on ("engine"))))

@@ -36,16 +36,16 @@
     (cond
       ((equal comp-player "easy")
        (setf placer #'constant-placer)
-       (setf killer #'constant-killer-web))
+       (setf killer #'constant-killer))
       ((equal comp-player "medium")
        (setf placer #'constant-placer)
-       (setf killer #'random-killer-web))
+       (setf killer #'clever-random-killer))
       ((equal comp-player "moderate")
        (setf placer #'random-placer-bf)
-       (setf killer #'constant-killer-web))
+       (setf killer #'constant-killer))
       ((equal comp-player "hard")
        (setf placer #'random-placer-bf)
-       (setf killer #'random-killer-web)))
+       (setf killer #'clever-random-killer)))
     (setf (gethash hunchentoot:*session* *game-spaces*)
 	  (make-instance 'game
 			 :config (read-from-string config)
@@ -82,10 +82,11 @@
   (setf (hunchentoot:content-type*) "text/plain")
   (setf ships-positions (sort (convert-ships-positions ships-positions)
 			      (lambda (a b) (> (first a) (first b)))))
-  (if (every (lambda (conf ship)
-	       (= conf (first ship)))
-	     '(4 3 3 2 2 2 1 1 1 1)
-	     ships-positions)
+  (if (and (every (lambda (conf ship)
+		    (= conf (first ship)))
+		  '(4 3 3 2 2 2 1 1 1 1)
+		  ships-positions)
+	   (= (length ships-positions) 10))
       (princ-to-string (correct (make-instance 'game-space
 					       :ships-positions
 					       ships-positions
