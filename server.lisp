@@ -77,6 +77,21 @@
 					  (second config))
 					 :gsconfig (first config)))))
 
+(hunchentoot:define-easy-handler (gamespace-tester
+				  :uri "/correct") (ships-positions)
+  (setf (hunchentoot:content-type*) "text/plain")
+  (setf ships-positions (sort (convert-ships-positions ships-positions)
+			      (lambda (a b) (> (first a) (first b)))))
+  (if (every (lambda (conf ship)
+	       (= conf (first ship)))
+	     '(4 3 3 2 2 2 1 1 1 1)
+	     ships-positions)
+      (princ-to-string (correct (make-instance 'game-space
+					       :ships-positions
+					       ships-positions
+					       :gsconfig '(10 10))))
+      (princ-to-string nil)))
+
 (defvar *server-killers* (make-hash-table))
 
 (defun start-server (port)

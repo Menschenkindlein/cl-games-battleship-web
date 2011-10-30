@@ -1,5 +1,6 @@
 var currentplayer="You";
 var playername;
+var partofthegame="start";
 
 function updateGS(humangs,compgs,message)
 {
@@ -9,7 +10,8 @@ function updateGS(humangs,compgs,message)
     if (message=="Hello")
     { document.getElementById("message").innerHTML=message+", "+playername+"!";}
     if (message=="are winner" || message=="is winner")
-    { document.getElementById("retry").style.display="inline"; }
+    { partofthegame="end";
+      document.getElementById("retry").style.display="block"; }
 }
 
 function switchPlayer()
@@ -53,11 +55,14 @@ function makeTurn(place)
 
 function shoot(event)
 {
-    var targ = event.target;
-    var x = targ.parentNode.rowIndex + 1;
-    var y = targ.cellIndex + 1;
-    targ.className="pending";
-    makeTurn("("+x+" "+y+")");
+    if (partofthegame=="process")
+    {
+	var targ = event.target;
+	var x = targ.parentNode.rowIndex + 1;
+	var y = targ.cellIndex + 1;
+	targ.className="pending";
+	makeTurn("("+x+" "+y+")");
+    }
 }
 
 function readGameSpace ()
@@ -82,9 +87,8 @@ function readGameSpace ()
     return(answer);
 }
 
-function createGame ()
+function createGame (gamespace)
 {
-    var gamespace=readGameSpace();
     playername=document.getElementById("name").value;
     if (playername=="")
     { playername="anonymous"; }
@@ -110,6 +114,10 @@ function createGame ()
 
 function randomGS ()
 {
+    var mesg=document.getElementById("message");
+    mesg.style.display="none";
+    mesg.innerHTML="";
+
     var xmlhttp=new XMLHttpRequest();
     xmlhttp.onreadystatechange=function()
     {
@@ -122,32 +130,67 @@ function randomGS ()
     xmlhttp.send();
 }
 
-function showHide()
+function testGS ()
 {
-    var gs=document.getElementById("humangs");
-    if (gs.style.display=="none")
-    { gs.style.display="inline"; }
+    var gamespace=readGameSpace();
+
+    if (gamespace=="()")
+    {
+	var mesg=document.getElementById("message");
+	mesg.style.display="inline";
+	mesg.innerHTML="This position is wrong";
+    }
     else
-    { gs.style.display="none"; }
+    {
+	var xmlhttp=new XMLHttpRequest();
+	xmlhttp.open("GET","correct?&ships-positions="+gamespace,false);
+	xmlhttp.send();
+	if (xmlhttp.readyState==4 && xmlhttp.status==200)
+	{
+	    if (xmlhttp.responseText=="NIL")
+	    {
+		var mesg=document.getElementById("message");
+		mesg.style.display="inline";
+		mesg.innerHTML="This position is wrong";
+	    }
+	}
+    }
+}
+
+function startGame ()
+{
+    testGS();
+    var gamespace=readGameSpace();
+    var mesg=document.getElementById("message");
+    if (mesg.innerHTML=="This position is wrong")
+    { return(0); }
+    else
+    { createGame(gamespace); partofthegame="process" }
 }
 
 function changeClass (event)
 {
-    var t = event.target;
-    var n = t.className;
-    var gre = function()
+    if (partofthegame=="start")
     {
-	if (n == "ship")
+	var mesg=document.getElementById("message");
+	mesg.style.display="none";
+	mesg.innerHTML="";
+	var t = event.target;
+	var n = t.className;
+	var gre = function()
 	{
-	    t.className = "";
+	    if (n == "ship")
+	    {
+		t.className = "";
+	    }
+	    else
+	    {
+		t.className = "ship";
+	    }
 	}
-	else
-	{
-	    t.className = "ship";
-	}
+	t.className = "pending";
+	var tO = setTimeout(gre,100);
     }
-    t.className = "pending";
-    var tO = setTimeout(gre,100);
 }
 
 function retry()
