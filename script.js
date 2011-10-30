@@ -1,10 +1,15 @@
 var currentplayer="You";
+var playername;
 
 function updateGS(humangs,compgs,message)
 {
     document.getElementById("humangs").innerHTML=humangs;
     document.getElementById("compgs").innerHTML=compgs;
     document.getElementById("message").innerHTML=currentplayer+" "+message+"!";
+    if (message=="Hello")
+    { document.getElementById("message").innerHTML=message+", "+playername+"!";}
+    if (message=="are winner" || message=="is winner")
+    { document.getElementById("retry").style.display="inline"; }
 }
 
 function switchPlayer()
@@ -80,7 +85,10 @@ function readGameSpace ()
 function createGame ()
 {
     var gamespace=readGameSpace();
-    var name=document.getElementById("name").value;
+    playername=document.getElementById("name").value;
+    if (playername=="")
+    { playername="anonymous"; }
+
     var xmlhttp=new XMLHttpRequest();
     xmlhttp.onreadystatechange=function()
     {
@@ -96,7 +104,7 @@ function createGame ()
     }
     xmlhttp.open("GET","create?ships-positions=" + gamespace
 		 + "&config=((10 10) (4 3 3 2 2 2 1 1 1 1))"
-		 + "&comp-player=hard" + "&name=" + name,true);
+		 + "&comp-player=hard" + "&name=" + playername,true);
     xmlhttp.send();
 }
 
@@ -140,4 +148,9 @@ function changeClass (event)
     }
     t.className = "pending";
     var tO = setTimeout(gre,100);
+}
+
+function retry()
+{
+    window.location.reload();
 }

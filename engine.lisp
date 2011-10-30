@@ -63,12 +63,6 @@
 	       (if result
 		   (princ-to-string result))))
 
-(defun ask-what-to-do-finish (&optional looser)
-  (concatenate 'string
-	       (enclose "finish" (if looser
-				     "looser"
-				     "winner"))))
-
 (defvar *game-spaces* (make-hash-table))
 
 (defmethod turn ((game game) &optional shooting-place)
@@ -77,10 +71,10 @@
 		    (shoot (human-game-space game) (ask (comp-killer game))))))
     (if shooting-place
 	(if (cleared (comp-game-space game))
-	    (ask-what-to-do-finish)
+	    (ask-human game "are winner")
 	    (ask-human game result))
 	(if (cleared (human-game-space game))
-	    (ask-what-to-do-finish t)
+	    (ask-human game "is winner")
 	    (progn
 	      (change-killing-sequence (comp-killer game) result)
 	      (ask-human game result))))))

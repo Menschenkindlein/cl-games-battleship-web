@@ -54,7 +54,7 @@
 			 :comp-player-name comp-player
 			 :comp-placer placer
 			 :comp-killer killer)))
-  (ask-human (gethash hunchentoot:*session* *game-spaces*) "hello"))
+  (ask-human (gethash hunchentoot:*session* *game-spaces*) "Hello"))
 
 (hunchentoot:define-easy-handler (make-turn
 				  :uri "/turn") (place-to-shoot)

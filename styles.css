@@ -10,6 +10,8 @@ body { background-color: grey; }
 
 #compgs { display: none; }
 
+#retry { display: none; }
+
 #bottom { text-align: center; padding: 10px;}
 
 /* #message { padding: 10px; } */
