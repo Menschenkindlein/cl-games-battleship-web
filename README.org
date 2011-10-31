@@ -1,0 +1,9 @@
+* Что это?
+
+Это web-интерфейс к [[https://github.com/Menschenkindlein/cl-games-battleship][cl-games-battleship]].
+
+* Невозможности
+
+- Нельзя менять конфигурацию поля и набор кораблей;
+
+- Не очень удобно расставлять корабли.  Лучше бы drag'n'drop.
