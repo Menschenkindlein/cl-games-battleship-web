@@ -4,8 +4,6 @@
   (merge-pathnames path (asdf:component-pathname
 			 (asdf:find-system :cl-games-battleship-web))))
 
-(setf hunchentoot:*session-removal-hook* (lambda (session)
-					   (remhash session *game-spaces*)))
 (push
  (hunchentoot:create-static-file-dispatcher-and-handler "/"
 							(path-here
@@ -39,13 +37,13 @@
        (setf killer #'constant-killer))
       ((equal comp-player "medium")
        (setf placer #'constant-placer)
-       (setf killer #'clever-random-killer))
+       (setf killer #'random-killer))
       ((equal comp-player "moderate")
        (setf placer #'random-placer-bf)
        (setf killer #'constant-killer))
       ((equal comp-player "hard")
        (setf placer #'random-placer-bf)
-       (setf killer #'clever-random-killer)))
+       (setf killer #'random-killer)))
     (setf (gethash hunchentoot:*session* *game-spaces*)
 	  (make-instance 'game
 			 :config (read-from-string config)
@@ -92,14 +90,3 @@
 					       ships-positions
 					       :gsconfig '(10 10))))
       (princ-to-string nil)))
-
-(defvar *server-killers* (make-hash-table))
-
-(defun start-server (port)
-  (let ((server (hunchentoot:start
-		 (make-instance 'hunchentoot:acceptor :port port))))
-    (setf (gethash port *server-killers*)
-	  (lambda () (hunchentoot:stop server)))))
-
-(defun stop-server (port)
-  (funcall (gethash port *server-killers*)))

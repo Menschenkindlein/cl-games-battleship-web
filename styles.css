@@ -1,5 +1,8 @@
 body { background-color: grey; }
 
+#config { position: absolute; top: 100px; left: 20px;
+	  width: 200px; padding: 20px; background-color: white; }
+
 #container { margin: 0 auto; width: 640px; padding: 20px; background-color: white; }
 
 #humangs { float: left; }
@@ -13,6 +16,8 @@ body { background-color: grey; }
 #retry { display: none; }
 
 #bottom { text-align: center; padding: 10px;}
+
+#bottom * { padding: 10px; }
 
 #message { display: none; }
 

@@ -2,13 +2,17 @@ var currentplayer="You";
 var playername;
 var partofthegame="start";
 
+var mesg=document.getElementById("message");
+var humangamespace=document.getElementById("humangs");
+var compgamespace=document.getElementById("compgs");
+
 function updateGS(humangs,compgs,message)
 {
-    document.getElementById("humangs").innerHTML=humangs;
-    document.getElementById("compgs").innerHTML=compgs;
-    document.getElementById("message").innerHTML=currentplayer+" "+message+"!";
+    humangamespace.innerHTML=humangs;
+    compgamespace.innerHTML=compgs;
+    mesg.innerHTML=currentplayer+" "+message+"!";
     if (message=="Hello")
-    { document.getElementById("message").innerHTML=message+", "+playername+"!";}
+    { mesg.innerHTML=message+", "+playername+"!";}
     if (message=="are winner" || message=="is winner")
     { partofthegame="end";
       document.getElementById("retry").style.display="block"; }
@@ -24,33 +28,41 @@ function switchPlayer()
 
 function makeTurn(place)
 {
-    var xmlhttp=new XMLHttpRequest();
-    xmlhttp.onreadystatechange=function()
+    if (partofthegame=="process")
     {
-	if (xmlhttp.readyState==4 && xmlhttp.status==200)
+	partofthegame="waiting"
+	
+	var xmlhttp=new XMLHttpRequest();
+	xmlhttp.onreadystatechange=function()
 	{
-	    var response=xmlhttp.responseText.split("|");
-	    var message=response[2];
-	    updateGS(response[0],response[1],message);
-	    if (message == "MISSED")
+	    if (xmlhttp.readyState==4 && xmlhttp.status==200)
 	    {
-		if (currentplayer == "Comp")
-		{ switchPlayer(); }
+		partofthegame="process";
+	    
+		var response=xmlhttp.responseText.split("|");
+		var message=response[2];
+		updateGS(response[0],response[1],message);
+		if (message == "MISSED")
+		{
+		    if (currentplayer == "Comp")
+		    { switchPlayer(); }
+		    else
+		    { switchPlayer(); makeTurn("none"); }
+		}
 		else
-		{ switchPlayer(); makeTurn("none"); }
-	    }
-	    else
-	    {
-		if (currentplayer == "Comp")
-		{ makeTurn("none"); }
+		{
+		    if (currentplayer == "Comp")
+		    { makeTurn("none"); }
+		}
 	    }
 	}
+	
+	if (place == "none")
+	{ xmlhttp.open("GET","turn",true); }
+	else
+	{ xmlhttp.open("GET","turn?place-to-shoot="+place,true); }
+	xmlhttp.send();
     }
-    if (place === "none")
-    { xmlhttp.open("GET","turn",true); }
-    else
-    { xmlhttp.open("GET","turn?place-to-shoot="+place,true); }
-    xmlhttp.send();
 }
 
 function shoot(event)
@@ -67,13 +79,12 @@ function shoot(event)
 
 function readGameSpace ()
 {
-    var gamespace=document.getElementById("humangs");
     var answer="(";
     var x;
     var y;
     for (x=0;x<10;x++)
     {
-	var row=gamespace.getElementsByTagName("tr")[x];
+	var row=humangamespace.getElementsByTagName("tr")[x];
 	for (y=0;y<10;y++)
 	{
 	    var cell=row.getElementsByTagName("td")[y];
@@ -87,11 +98,25 @@ function readGameSpace ()
     return(answer);
 }
 
+function getRadioValue (radio)
+{
+    for (i=0;i<=radio.length;i++)
+    {
+	if (radio.elements[i].checked==true)
+	{ return(radio.elements[i].value); }
+    }
+}
+
 function createGame (gamespace)
 {
     playername=document.getElementById("name").value;
+    var enemy=getRadioValue(document.getElementById("enemy"));
     if (playername=="")
     { playername="anonymous"; }
+
+    partofthegame="process";
+    mesg.style.display="block";
+    mesg.innerHTML="Wait a minute, please.";
 
     var xmlhttp=new XMLHttpRequest();
     xmlhttp.onreadystatechange=function()
@@ -100,79 +125,80 @@ function createGame (gamespace)
 	{
 	    var response=xmlhttp.responseText.split("|");
 	    updateGS(response[0],response[1],response[2]);
+	    
 	    document.getElementById("form").style.display="none";
 	    document.getElementById("help").style.display="none";
-	    document.getElementById("compgs").style.display="inline";
-	    document.getElementById("message").style.display="inline";
+	    compgamespace.style.display="inline";
 	}
     }
     xmlhttp.open("GET","create?ships-positions=" + gamespace
 		 + "&config=((10 10) (4 3 3 2 2 2 1 1 1 1))"
-		 + "&comp-player=hard" + "&name=" + playername,true);
+		 + "&comp-player=" + enemy + "&name=" + playername,true);
     xmlhttp.send();
 }
 
 function randomGS ()
 {
-    var mesg=document.getElementById("message");
-    mesg.style.display="none";
-    mesg.innerHTML="";
+    mesg.style.display="block";
+    mesg.innerHTML="Wait a minute, please.";
+
+    partofthegame="process";
 
     var xmlhttp=new XMLHttpRequest();
+    
     xmlhttp.onreadystatechange=function()
     {
 	if (xmlhttp.readyState==4 && xmlhttp.status==200)
 	{
-	    document.getElementById("humangs").innerHTML=xmlhttp.responseText;
+	    humangamespace.innerHTML=xmlhttp.responseText;
+	    
+	    mesg.style.display="none";
+	    mesg.innerHTML="";
+	    partofthegame="start";
 	}
     }
+
     xmlhttp.open("GET","random?&config=((10 10) (4 3 3 2 2 2 1 1 1 1))",true);
     xmlhttp.send();
 }
 
-function testGS ()
-{
-    var gamespace=readGameSpace();
-
-    if (gamespace=="()")
-    {
-	var mesg=document.getElementById("message");
-	mesg.style.display="inline";
-	mesg.innerHTML="This position is wrong";
-    }
-    else
-    {
-	var xmlhttp=new XMLHttpRequest();
-	xmlhttp.open("GET","correct?&ships-positions="+gamespace,false);
-	xmlhttp.send();
-	if (xmlhttp.readyState==4 && xmlhttp.status==200)
-	{
-	    if (xmlhttp.responseText=="NIL")
-	    {
-		var mesg=document.getElementById("message");
-		mesg.style.display="inline";
-		mesg.innerHTML="This position is wrong";
-	    }
-	}
-    }
-}
-
 function startGame ()
 {
-    testGS();
-    var gamespace=readGameSpace();
-    var mesg=document.getElementById("message");
-    if (mesg.innerHTML=="This position is wrong")
-    { return(0); }
-    else
-    { createGame(gamespace); partofthegame="process" }
+    if (partofthegame=="start")
+    {
+	var gamespace=readGameSpace();
+	
+	if (gamespace=="()")
+	{ return(0); }
+	else
+	{
+	    partofthegame="waiting";
+	    var xmlhttp=new XMLHttpRequest();
+	    xmlhttp.onreadystatechange=function()
+	    {
+		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+		{
+		    if (xmlhttp.responseText=="NIL")
+		    { 
+			mesg.style.display="block";
+			mesg.innerHTML="This position is wrong.";
+			partofthegame="start";
+		    }
+		    else
+		    { createGame(gamespace); partofthegame="process" }
+		}
+	    }
+
+	    xmlhttp.open("GET","correct?&ships-positions="+gamespace,true);
+	    xmlhttp.send();
+	}
+    }
 }
 
 function changeClass (event)
 {
     if (partofthegame=="start")
     {
-	var mesg=document.getElementById("message");
 	mesg.style.display="none";
 	mesg.innerHTML="";
 	var t = event.target;

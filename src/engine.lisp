@@ -28,44 +28,6 @@
 				(first config)
 				(second config)))))
 
-(defun print-game-space-web (gamespace &key enemy preview)
-  (let ((gamespace (print-game-space gamespace :enemy enemy :preview preview)))
-    (apply #'concatenate 'string
-	   (loop for x from 1 to 10 collecting
-		(concatenate 'string
-			     (princ-to-string #\Newline)
-			     "<tr>"
-			     (apply
-			      #'concatenate
-			      'string
-			      (loop for y from 1 to 10 collecting
-				   (concatenate
-				    'string
-				    "<td"
-				    (case (aref gamespace x y)
-				      (9 "")
-				      (0 " class=\"sea\"")
-				      (1 " class=\"ship\"")
-				      (2 " class=\"shooted-ship\""))
-				    "></td>")))
-			      "</tr>")))))
-
-(defmacro enclose (tagname thing)
-  `(concatenate 'string
-		"<" ,tagname ">" ,thing "</" ,tagname ">" #(#\Newline)))
-
-(defmethod ask-human ((game game) &optional result)
-  (concatenate 'string
-	       (print-game-space-web (human-game-space game))
-	       "|"
-	       (print-game-space-web (comp-game-space game)
-				     :enemy t)
-	       "|"
-	       (if result
-		   (princ-to-string result))))
-
-(defvar *game-spaces* (make-hash-table))
-
 (defmethod turn ((game game) &optional shooting-place)
   (setf (result game) (if shooting-place
 			  (shoot (comp-game-space game) shooting-place)
@@ -78,6 +40,16 @@
 	(if (cleared (human-game-space game))
 	    (ask-human game "is winner")
 	    (ask-human game (result game)))))
+
+(defmethod ask-human ((game game) &optional result)
+  (concatenate 'string
+	       (print-game-space-web (human-game-space game))
+	       "|"
+	       (print-game-space-web (comp-game-space game)
+				     :enemy t)
+	       "|"
+	       (if result
+		   (princ-to-string result))))
 
 (defmacro incn (n list &optional (increment 1))
   (let ((incfed-list (gensym)))

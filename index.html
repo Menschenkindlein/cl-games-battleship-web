@@ -4,9 +4,17 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
       <link rel="stylesheet" href="styles" type="text/css" />
     <title>bship game</title>
-    <script type="text/javascript" src="scripts"></script>
   </head>
   <body>
+    <div id="config">
+      <p>Select the level of the computer enemy:</p>
+      <form id="enemy">
+      <input type="radio" name="enemy" value="easy" /> Easy<br />
+      <input type="radio" name="enemy" value="medium" /> Medium<br />
+      <input type="radio" name="enemy" value="moderate" /> Moderate<br />
+      <input type="radio" name="enemy" value="hard" checked="true" /> Hard<br/>
+      </form>
+    </div>
     <div id="container">
       <h1 align="center">Common Lisp Battleship</h1>
       <table onclick="changeClass(event)" id="humangs">
@@ -45,11 +53,12 @@
 	  <button type="button" onClick="startGame()">I'm ready to fight</button>
 	  <button type="button" onClick="randomGS()">help me, random-bruteforcer</button>
 	</div>
-	<p id="message"></p>
+	<div id="message"></div>
 	<div id="retry">
 	  <button type="button" onClick="retry()">retry</button>
 	</div>
       </div>
     </div>
+    <script type="text/javascript" src="scripts"></script>
   </body>
 </html>
