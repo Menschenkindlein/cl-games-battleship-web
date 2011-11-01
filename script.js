@@ -127,6 +127,7 @@ function createGame (gamespace)
 	    updateGS(response[0],response[1],response[2]);
 	    
 	    document.getElementById("form").style.display="none";
+	    document.getElementById("config").style.display="none";
 	    document.getElementById("help").style.display="none";
 	    compgamespace.style.display="inline";
 	}
