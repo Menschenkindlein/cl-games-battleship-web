@@ -43,7 +43,10 @@
        (setf killer #'constant-killer))
       ((equal comp-player "hard")
        (setf placer #'random-placer-bf)
-       (setf killer #'random-killer)))
+       (setf killer #'random-killer))
+      ((equal comp-player "impossible")
+       (setf placer #'random-placer-bf)
+       (setf killer #'strategic-random-killer)))
     (setf (gethash hunchentoot:*session* *game-spaces*)
 	  (make-instance 'game
 			 :config (read-from-string config)
